@@ -1,0 +1,12 @@
+{
+  "name": "sse",
+  "version": "1.0.0",
+  "description": "testing server-sent-events",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Vahid Dejwakh",
+  "license": "ISC"
+}
