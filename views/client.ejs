@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Streaming Topic: <%= topic %></title>
+</head>
+<style>
+  th, td {
+    margin: 20px;
+    padding: 10px;
+  }
+</style>
+<body>
+<h2>Streaming Topic: <span id="topic"><%= topic %></span></h2>
+<table>
+  <thead>
+    <tr id="headers">
+      <th>Timestamp</th>
+      <th>Key</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody id="table">
+    <!-- New rows received from server will go here -->
+  </tbody>
+</table>
+
+<script>
+const topic = document.getElementById("topic").textContent
+const events = new EventSource(`http://localhost:3000/stream/${topic}`);
+const table = document.getElementById("table")
+
+events.onmessage = e => {
+  const record = JSON.parse(e.data);
+  if (record.timestamp) {
+    const row = table.insertRow(-1)       // last row (at end of table)
+    const firstCol = row.insertCell(0)    // timestamp
+    const secondCol = row.insertCell(1)   // key
+    const thirdCol = row.insertCell(2)    // value
+    firstCol.appendChild(document.createTextNode(record.timestamp));
+    secondCol.appendChild(document.createTextNode(record.key));
+    thirdCol.appendChild(document.createTextNode(record.value));
+  }
+};
+
+</script>
+</body>
+</html>
